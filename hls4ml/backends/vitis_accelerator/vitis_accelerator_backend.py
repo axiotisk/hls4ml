@@ -44,7 +44,7 @@ class VitisAcceleratorBackend(VitisBackend):
         config['AcceleratorConfig']['Batchsize'] = batchsize
         return config
 
-    def build(self, model, reset=False, synth=True, vsynth=True):
+    def build(self, model, reset=False, synth=True, vsynth=True, **kwargs):
         if 'linux' in sys.platform:
             if 'XILINX_VITIS' not in os.environ:
                 raise Exception("XILINX_VITIS environmental variable missing. Please install XRT and Vitis, and run the setup scripts before building")
