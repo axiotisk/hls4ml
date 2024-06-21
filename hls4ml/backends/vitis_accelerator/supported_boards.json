@@ -18,7 +18,7 @@
       "memory": {"type": "ddr", "channels": 4, "capacity": 64}
     },
     "vck5000": {
-      "board_type": "versal",
+      "board_type": "alveo-versal",
       "part": "xcvc1902-2msevsvd1760", 
       "platform": "xilinx_vck5000_gen4x8_qdma_2_202220_1",
       "memory":{"type": "ddr", "channels": 3, "capacity": 12}
