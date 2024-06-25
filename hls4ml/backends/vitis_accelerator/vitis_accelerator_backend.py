@@ -48,7 +48,7 @@ class VitisAcceleratorBackend(VitisBackend):
         config['AcceleratorConfig']['Vivado_Directives'] = vivado_directives
         return config
 
-    def build(self, model, reset=False, synth=True, vsynth=True, **kwargs):
+    def build(self, model, reset=False, synth=True, vsynth=True, csim=False, cosim=False, debug=False, **kwargs):
         if 'linux' in sys.platform:
             if 'XILINX_VITIS' not in os.environ:
                 raise Exception("XILINX_VITIS environmental variable missing. Please install XRT and Vitis, and run the setup scripts before building")
@@ -69,13 +69,22 @@ class VitisAcceleratorBackend(VitisBackend):
             
             if vsynth:
                 if synth:
-                    target = "all"
+                    target = "all "
                 else:
-                    target = "xclbin"
+                    target = "xclbin "
             elif synth:
-                target = "hls"
+                target = "hls "
             else:
-                target = "host"
+                target = "host "
+
+            if cosim:
+                target += "TARGET=hw_emu "
+            elif csim:
+                target += "TARGET=sw_emu "
+
+            if debug:
+                target += "DEBUG"
+
             command = "make " + target
 
             # Pre-loading libudev
