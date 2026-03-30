@@ -14,10 +14,14 @@ static void read_input(const /*IN_INTERFACE_TYPE*/ *in, hls::stream<input_t> &in
 }
 
 static void write_result(/*OUT_INTERFACE_TYPE*/ *out, hls::stream<result_t> &output, int n) {
-    result_t tmp = output.read();
-    for (int i = 0; i < DATA_SIZE_OUT; i++) {
-        #pragma HLS UNROLL
-        out[(n * DATA_SIZE_OUT) + i] = /*OUT_HW_QUANT*/ tmp[i];
+    int out_idx = 0;
+    for (int i = 0; i < DATA_SIZE_OUT / result_t::size; i++){
+        result_t tmp = output.read();
+        for (int j = 0; j < result_t::size; j++) {
+            #pragma HLS UNROLL
+            out[(n * DATA_SIZE_OUT) + out_idx] = tmp[j];
+            out_idx++;
+        }
     }
 }
 
