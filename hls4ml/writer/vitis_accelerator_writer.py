@@ -118,11 +118,11 @@ class VitisAcceleratorWriter(VitisWriter):
                     newline += "typedef " + format(inp.type.name) + " in_buffer_t;\n"
                     newline += "typedef " + format(out.type.name) + " out_buffer_t;\n"
                 elif io_type == "io_stream":
-                    dims, _ = zip(*inp.get_shape())
+                    dims = inp.shape
                     dims = list(dims)
                     nnet_array_depth = dims.pop()
-                    dims.append("1")
-                    newline += "#define DATA_SIZE_IN " + " * ".join(dims) + "\n"
+                    dims.append(1)
+                    newline += "#define DATA_SIZE_IN " + " * ".join(map(str, dims)) + "\n"
                     newline += "#define NNET_ARRAY_DEPTH " + format(nnet_array_depth) + "\n"
                     newline += "#define INSTREAMSIZE (DATA_SIZE_IN * NNET_ARRAY_DEPTH)" + "\n\n"
                     newline += "#define DATA_SIZE_OUT " + format(out.size_cpp()) + "\n"
